@@ -1,9 +1,10 @@
 (ns ^:figwheel-hooks jeopardy.view.main
   (:require
-   [goog.dom :as gdom]
-   [reagent.dom :as rdom]
-   [re-frame.core :as re-frame]
-   [jeopardy.view.events :as events]))
+    [goog.dom :as gdom]
+    [reagent.dom :as rdom]
+    [re-frame.core :as re-frame]
+    [jeopardy.view.events :as events]
+    [jeopardy.view.subs]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defn get-app-element []
@@ -11,9 +12,13 @@
 
 (defn app-component
   []
-  (println "hej")
-  [:div
-   [:h1 "Hej!"]])
+  (let [clicks (deref (re-frame/subscribe [:clicks]))]
+    [:div
+      [:h1 "Hej!"]
+      [:p (str "Clicks: " clicks)]
+      [:button {:on-click {fn [] (re-frame/dispatch [:button-clicked]) }} "Click me!"]
+     ]
+    )
 
 
 (defn mount [el]

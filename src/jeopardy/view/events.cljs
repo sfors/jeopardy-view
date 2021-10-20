@@ -7,3 +7,7 @@
   :initialize-db
   (fn [_]
     {:clicks 0}))
+
+(re-frame/reg-event-db
+  :button-clicked
+  (fn [db] (update db :clicks inc)))
