@@ -3,7 +3,8 @@
    [goog.dom :as gdom]
    [reagent.dom :as rdom]
    [re-frame.core :as re-frame]
-   [jeopardy.view.events :as events]))
+   [jeopardy.view.events :as events]
+   [jeopardy.view.subs :as subs]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defn get-app-element []
@@ -11,9 +12,14 @@
 
 (defn app-component
   []
-  (println "hej")
-  [:div
-   [:h1 "Hej!"]])
+  (let [clicks (deref (re-frame/subscribe [::subs/clicks]))]
+    [:div
+     [:h1 "Hej!"]
+     [:p {:style {:color "red"}} (str "Clicks: " clicks)]
+     [:button
+      {:on-click (fn []
+                   (re-frame/dispatch [::events/button-clicked]))}
+      "Click me!"]]))
 
 
 (defn mount [el]
@@ -28,7 +34,9 @@
 (mount-app-element)
 
 ;; specify reload hook with ^;after-load metadata
-(defn ^:after-load on-reload []
+(defn on-reload
+  {:after-load true}
+  []
   (mount-app-element)
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
@@ -37,7 +45,7 @@
 
 
 (defn init []
-  (re-frame/dispatch [:initialize-db]))
+  (re-frame/dispatch [::events/initialize-db]))
 
 
 (init)
