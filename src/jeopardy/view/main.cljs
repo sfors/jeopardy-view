@@ -16,15 +16,15 @@
   [:td {:style { :color "#DDD" }}
    [:div {:style { :background-color "transparent" :perspective "1000px" :width "100%" :height "49px"}}
     [:div {:style { :width "100%" :height "100%" :position "relative" :transition "transform 0.8s" :transform-style "preserve-3d" :transform (if flipped "rotateY(180deg)" "")}}
-     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden"}} value]
-     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden" :transform "rotateY(180deg)"}} question]
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden"}} value]
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden" :transform "rotateY(180deg)"}} question]
      ]]])
 
 (defn app-component
   []
   (let [clicks (deref (re-frame/subscribe [::subs/clicks]))
         flipped (= (mod clicks 2) 1)
-        tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background-color "blue" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)"}]
+        tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)"}]
     [:div
      [:h1 "Jeopardy"]
      [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellspacing "3px"}
