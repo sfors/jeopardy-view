@@ -46,6 +46,10 @@
      {:on-click (fn []
                   (re-frame/dispatch [::events/button-clicked]))}
      "Click me!"]
+     [:button
+      {:on-click (fn [] (js/alert "BUZZED"))
+       :style    {:height "100px" :width "100px" :border-radius "50%" :background-color "red" :border "solid 2px black"}}
+      [:b "BUZZ!"]]
      [call-service]]))
 
 

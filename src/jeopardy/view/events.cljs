@@ -33,8 +33,8 @@
             :response-format
                         (ajax/json-response-format {:keywords? true})
             :on-success [::response-received]
-            :on-failure [::service-call-failed]
-            }]]}))
+            :on-failure [::service-call-failed]}]]}))
+            
 
 (re-frame/reg-event-db
   ::response-received
@@ -49,37 +49,38 @@
 
 (re-frame/reg-event-db
   ::on-server-message
-  (fn [db [_ response]]
-    (println "Got a websocket message:" response)))
+  (fn [_ [_ response]]
+    (js/alert response)))
 
 
 (defonce websocket-atom (atom nil))
 
 (re-frame/reg-fx
-  :websocket-connect
-  (fn [{username :username}]
-    (let [ws (js/WebSocket. "ws://localhost:7000")]
-      (set! (.-onmessage ws)
-            (fn [e]
-              (let [response (read-string (.-data e))]
-                (re-frame/dispatch [::on-server-message response]))))
+ :websocket-connect
+ (fn [{username :username}]
+   (when-not (deref websocket-atom)
+     (let [ws (js/WebSocket. "ws://localhost:7000")]
+       (set! (.-onmessage ws)
+             (fn [e]
+               (println "Message received: " e)
+               (let [response (read-string (.-data e))]
+                 (re-frame/dispatch [::on-server-message response]))))
 
-      (set! (.-onclose ws)
-            (fn [e]
-              (println "Websocket closed")
-              (reset! websocket-atom nil)
-              ))
+       (set! (.-onclose ws)
+             (fn [e]
+               (println "Websocket closed")
+               (reset! websocket-atom nil)))
 
-      (set! (.-onopen ws)
-            (fn [e]
-              (println "On open websocket!")
-              ;(swap! state-atom core/set-connection :connected)
-              (.send (deref websocket-atom)
-                     (str {:action :connect
-                           :name   username}))))
 
-      (reset! websocket-atom ws)
-      )))
+       (set! (.-onopen ws)
+             (fn [e]
+               (println "Websocket Opened")
+               (.send (deref websocket-atom)
+                      (str {:action :connect
+                            :name   username}))))
+
+       (reset! websocket-atom ws)))))
+      
 
 (re-frame/reg-event-fx
   ::call-get-board
@@ -90,8 +91,8 @@
             :response-format
                     (ajax/json-response-format {:keywords? true})
             :on-success [::get-board-received]
-            :on-failure [::service-call-failed]
-            }]]}))
+            :on-failure [::service-call-failed]}]]}))
+            
 
 (re-frame/reg-event-db
   ::get-board-received
