@@ -5,3 +5,7 @@
   ::clicks
   (fn [db] (:clicks db)))
 
+
+(re-frame/reg-sub
+  ::service-response
+  (fn [db] (:service-response db)))

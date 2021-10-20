@@ -4,7 +4,8 @@
     [reagent.dom :as rdom]
     [re-frame.core :as re-frame]
     [jeopardy.view.events :as events]
-    [jeopardy.view.subs :as subs]))
+    [jeopardy.view.subs :as subs]
+    [jeopardy.view.components.service-button :refer [call-service]]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defn get-app-element []
@@ -28,7 +29,8 @@
     [:button
      {:on-click (fn []
                   (re-frame/dispatch [::events/button-clicked]))}
-     "Click me!"] ] ) )
+     "Click me!"]
+     [call-service]]))
 
 
 (defn mount [el]
