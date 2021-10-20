@@ -3,6 +3,7 @@
     [re-frame.core :as re-frame]
     [day8.re-frame.http-fx]
     [ajax.core :as ajax]
+    [jeopardy.view.core :as core]
     [clojure.edn :refer [read-string]]))
 
 
@@ -46,7 +47,6 @@
   (fn [db [_ value]]
     (assoc db :username value)))
 
-
 (re-frame/reg-event-db
   ::on-server-message
   (fn [db [_ response]]
@@ -80,3 +80,21 @@
 
       (reset! websocket-atom ws)
       )))
+
+(re-frame/reg-event-fx
+  ::call-get-board
+  (fn [_ _]
+    {:fx [[:http-xhrio
+           {:method :get
+            :uri "http://localhost:7000/get-board"
+            :response-format
+                    (ajax/json-response-format {:keywords? true})
+            :on-success [::get-board-received]
+            :on-failure [::service-call-failed]
+            }]]}))
+
+(re-frame/reg-event-db
+  ::get-board-received
+  (fn [db [_ response]]
+    (println response)
+    (core/receive-get-board db response)))

@@ -8,8 +8,8 @@
   (let [service-response (deref (re-frame/subscribe [::subs/service-response]))]
     [:div
      [:button {:on-click
-               (fn [] (re-frame/dispatch [::events/call-service]))}
-      "Call service!"]
+               (fn [] (re-frame/dispatch [::events/call-get-board]))}
+      "Call get-board!"]
      (if service-response
        [:p (str service-response)]
        [:p "No response!"])
