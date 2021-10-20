@@ -1,10 +1,10 @@
 (ns ^:figwheel-hooks jeopardy.view.main
   (:require
-   [goog.dom :as gdom]
-   [reagent.dom :as rdom]
-   [re-frame.core :as re-frame]
-   [jeopardy.view.events :as events]
-   [jeopardy.view.subs :as subs]))
+    [goog.dom :as gdom]
+    [reagent.dom :as rdom]
+    [re-frame.core :as re-frame]
+    [jeopardy.view.events :as events]
+    [jeopardy.view.subs :as subs]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defn get-app-element []
@@ -47,5 +47,5 @@
 (defn init []
   (re-frame/dispatch [::events/initialize-db]))
 
-
-(init)
+(when (= (deref re-frame.db/app-db) {})
+  (init))
