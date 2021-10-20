@@ -35,9 +35,10 @@
       [:button {:on-click (fn [] (re-frame/dispatch [::events/join-game]))}
        "Join game!"]]
      [:p username]
-     [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellspacing "3px"}
+     [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellSpacing "3px"}
+      [:thead
+       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]]
       [:tbody
-       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
        [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
        [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
        [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
