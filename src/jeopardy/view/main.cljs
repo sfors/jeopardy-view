@@ -23,10 +23,16 @@
 (defn app-component
   []
   (let [clicks (deref (re-frame/subscribe [::subs/clicks]))
+        username (deref (re-frame/subscribe [::subs/username]))
         flipped (= (mod clicks 2) 1)
         tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)"}]
     [:div
      [:h1 "Jeopardy"]
+     [:div
+      [:span "Username"]
+      [:input {:on-change (fn [e] (re-frame/dispatch [::events/username-changed (.-value (.-target e))]))}]
+      [:button {:on-click (fn [] (re-frame/dispatch [::events/join-game]))}
+       "Join game!"]]
      [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellspacing "3px"}
       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
       [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
