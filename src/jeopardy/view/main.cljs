@@ -12,14 +12,23 @@
 
 (defn app-component
   []
-  (let [clicks (deref (re-frame/subscribe [::subs/clicks]))]
+  (let [clicks (deref (re-frame/subscribe [::subs/clicks]))
+        tdStyle {:padding "1rem" :color "#DDD" :background-color "blue" :background "linear-gradient(135deg, rgba(120,120,255,1) 0%, rgba(50,50,255,1) 100%)"}]
     [:div
-     [:h1 "Hej!"]
-     [:p {:style {:color "red"}} (str "Clicks: " clicks)]
-     [:button
-      {:on-click (fn []
-                   (re-frame/dispatch [::events/button-clicked]))}
-      "Click me!"]]))
+     [:h1 "Jeopardy"]
+     [:table {:style {:background-color "black" :text-align "center"}}
+      [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
+      [:tr [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"]]
+      [:tr [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"]]
+      [:tr [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"]]
+      [:tr [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"]]
+      [:tr [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"]]
+     ]
+    [:p {:style {:color "red"}} (str "Clicks: " clicks)]
+    [:button
+     {:on-click (fn []
+                  (re-frame/dispatch [::events/button-clicked]))}
+     "Click me!"] ] ) )
 
 
 (defn mount [el]
