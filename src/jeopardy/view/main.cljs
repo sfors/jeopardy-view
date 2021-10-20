@@ -11,19 +11,29 @@
 (defn get-app-element []
   (gdom/getElement "app"))
 
+(defn flip-card
+[value question flipped]
+  [:td {:style { :color "#DDD" }}
+   [:div {:style { :background-color "transparent" :perspective "1000px" :width "100%" :height "49px"}}
+    [:div {:style { :width "100%" :height "100%" :position "relative" :transition "transform 0.8s" :transform-style "preserve-3d" :transform (if flipped "rotateY(180deg)" "")}}
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden"}} value]
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)" :position "absolute" :width "100%" :height "100%" :backface-visibility "hidden" :transform "rotateY(180deg)"}} question]
+     ]]])
+
 (defn app-component
   []
   (let [clicks (deref (re-frame/subscribe [::subs/clicks]))
-        tdStyle {:padding "1rem" :color "#DDD" :background-color "blue" :background "linear-gradient(135deg, rgba(120,120,255,1) 0%, rgba(50,50,255,1) 100%)"}]
+        flipped (= (mod clicks 2) 1)
+        tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background-color "blue" :background "linear-gradient(145deg, rgba(120,120,255,1) 0%, rgba(0,0,255,1) 100%)"}]
     [:div
      [:h1 "Jeopardy"]
-     [:table {:style {:background-color "black" :text-align "center"}}
+     [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellspacing "3px"}
       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
-      [:tr [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"] [:td {:style tdStyle} "200"]]
-      [:tr [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"] [:td {:style tdStyle} "400"]]
-      [:tr [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"] [:td {:style tdStyle} "600"]]
-      [:tr [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"] [:td {:style tdStyle} "800"]]
-      [:tr [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"] [:td {:style tdStyle} "1000"]]
+      [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
+      [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
+      [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
+      [:tr [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped]]
+      [:tr [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped]]
      ]
     [:p {:style {:color "red"}} (str "Clicks: " clicks)]
     [:button
