@@ -75,8 +75,7 @@
               (println "On open websocket!")
               ;(swap! state-atom core/set-connection :connected)
               (.send (deref websocket-atom)
-                     (str {:action :connect
-                           :name   username}))))
+                     (str {:username username}))))
 
       (reset! websocket-atom ws)
       )))

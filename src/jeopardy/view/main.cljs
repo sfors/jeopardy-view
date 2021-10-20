@@ -30,17 +30,19 @@
      [:h1 "Jeopardy"]
      [:div
       [:span "Username"]
-      [:input {:on-change (fn [e] (re-frame/dispatch [::events/username-changed (.-value (.-target e))]))}]
+      [:input {:on-change (fn [e] (re-frame/dispatch [::events/username-changed (-> e (.-target) (.-value))]))
+               :value username}]
       [:button {:on-click (fn [] (re-frame/dispatch [::events/join-game]))}
        "Join game!"]]
+     [:p username]
      [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellspacing "3px"}
-      [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
-      [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
-      [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
-      [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
-      [:tr [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped]]
-      [:tr [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped]]
-     ]
+      [:tbody
+       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]
+       [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
+       [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
+       [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
+       [:tr [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped]]
+       [:tr [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped]]]]
     [:p {:style {:color "red"}} (str "Clicks: " clicks)]
     [:button
      {:on-click (fn []
