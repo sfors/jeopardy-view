@@ -8,6 +8,7 @@ FIXME: Write a paragraph about the library/project and highlight its goals.
 
 ## Development
 
+### Comand-line
 To get an interactive development environment run:
 
     clojure -M:fig:build
@@ -28,6 +29,13 @@ To create a production build run:
 
 	rm -rf target/public
 	clojure -M:fig:min
+
+### IntelliJ Cursive REPL
+To start the REPL within IntelliJ (inspired by https://figwheel.org/docs/cursive.html)
+- Create a new run configuration (Select Clojure REPL -> Local)
+- Select clojure.main
+- Select "Run with deps" and in field Aliases type `fig`
+- In parameters, add `dev/user.clj`
 
 
 ## License
