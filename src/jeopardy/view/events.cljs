@@ -4,10 +4,11 @@
 
 
 (re-frame/reg-event-db
-  :initialize-db
+  ::initialize-db
   (fn [_]
     {:clicks 0}))
 
+
 (re-frame/reg-event-db
-  :button-clicked
+  ::button-clicked
   (fn [db] (update db :clicks inc)))
