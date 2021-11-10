@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  server:
+    image: jeopardy-view
+    container_name: jeopardy-view
+    build:
+      context: ./
+    command: clojure -A:fig:build
+    volumes:
+      - "./:/usr/src/view"
+    ports:
+      - "9500:9500"
