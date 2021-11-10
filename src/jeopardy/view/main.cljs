@@ -20,12 +20,71 @@
      [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :position "absolute" :width "100%" :height "100%" :-webkit-backface-visibility "hidden" :backface-visibility "hidden" :transform "rotateY(180deg)"}} question]
      ]]])
 
+(defn flip-card-new
+  [value question flipped]
+  [:div {:style { :color "#DDD" :flex-grow 1}}
+   [:div {:style { :background-color "transparent" :perspective "1000px" :width "100%" :height "49px"}}
+    [:div {:style { :width "100%" :height "100%" :position "relative" :transition "transform 0.8s" :transform-style "preserve-3d" :transform (if flipped "rotateY(180deg)" "")}}
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :position "absolute" :width "100%" :height "100%" :-webkit-backface-visibility "hidden" :backface-visibility "hidden"}} value]
+     [:div {:style {:border-radius "3px" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :position "absolute" :width "100%" :height "100%" :-webkit-backface-visibility "hidden" :backface-visibility "hidden" :transform "rotateY(180deg)"}} question]
+     ]]])
+
 (defn app-component
   []
   (let [clicks (deref (re-frame/subscribe [::subs/clicks]))
         username (deref (re-frame/subscribe [::subs/username]))
         flipped (= (mod clicks 2) 1)
-        tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)"}]
+        board {:board
+               {:categories
+                [{:title "kings",
+                  :id 1,
+                  :cards
+                         [{:points 100,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 200,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 300,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}]}
+                 {:title "programming",
+                  :id 2,
+                  :cards
+                         [{:points 100,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 200,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 300,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}]}
+                 {:title "animals",
+                  :id 3,
+                  :cards
+                         [{:points 100,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 200,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}
+                          {:points 300,
+                           :answer "Carl gustav",
+                           :question "What king?",
+                           :flipped? false}]}]}
+               }
+
+        tdStyle {:border-radius "3px" :padding "1rem" :color "#DDD" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)"}
+        tdStyle-new {:border-radius "3px" :padding "1rem" :color "#DDD" :background "linear-gradient(145deg, rgba(100,100,200,1) 0%, rgba(0,0,200,1) 100%)" :flex-grow 1}]
     [:div
      [:h1 "Jeopardy"]
      [:div
@@ -35,15 +94,26 @@
       [:button {:on-click (fn [] (re-frame/dispatch [::events/join-game]))}
        "Join game!"]]
      [:p username]
+     [:div {:style {:display "flex" }}
+      (map (fn [category] [:div {:style {:flex-grow 1}}
+                           [:div {:style tdStyle-new} (:title category)]
+                           (map (fn [card]
+                                  [flip-card-new (:points card) (:question card) flipped]
+                                  )
+                                (:cards category))
+                           ]) (:categories (:board board)))
+      ]
+
      [:table {:style {:border-radius "5px" :background-color "black" :text-align "center"} :cellSpacing "3px"}
       [:thead
-       [:tr [:th {:style tdStyle} "category1"] [:th {:style tdStyle} "category2"] [:th {:style tdStyle} "category3"] [:th {:style tdStyle} "category4"] [:th {:style tdStyle} "category5"] [:th {:style tdStyle} "category6"]]]
+       [:tr (map (fn [category] [:th {:style tdStyle} (:title category)]) (:categories (:board board)))]]
       [:tbody
-       [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
-       [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
-       [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
-       [:tr [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped]]
-       [:tr [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped]]]]
+       ;(map (fn [board] ))
+       [:tr [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped] [flip-card "200" "Frågan" flipped]]
+       [:tr [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped] [flip-card "400" "Frågan" flipped]]
+       [:tr [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped] [flip-card "600" "Frågan" flipped]]
+       [:tr [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped] [flip-card "800" "Frågan" flipped]]
+       [:tr [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped] [flip-card "1000" "Frågan" flipped]]]]
     [:p {:style {:color "red"}} (str "Clicks: " clicks)]
     [:button
      {:on-click (fn []
